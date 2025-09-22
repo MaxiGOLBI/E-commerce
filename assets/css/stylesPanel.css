@@ -1,0 +1,75 @@
+body{
+  background-color: rgb(222, 222, 222) !important;
+}
+
+.container-fluid{
+  padding-left: 2rem !important;
+  padding-right: 2rem !important;
+}
+
+.layout{
+  min-height: 100vh;
+  display: flex;
+  
+}
+.sidebar{
+  width: 14rem;
+  background-color: #393939;
+  padding: 1rem;
+  color: white;
+  flex-shrink: 0;
+}
+
+.letraTitulos{
+  display: block;
+  color: white;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 400;
+  font-size: 0.9rem;
+  text-decoration: none;
+  border-radius: 8px;
+  transition: background 0.3s ease, color 0.3s;
+  letter-spacing: 0.5px;
+}
+
+.letraTitulos:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: #f1f1f1;
+}
+
+.letraTitulos.active {
+  background-color: white;
+  color: #fb1818;
+}
+
+.content{
+  flex: 1;
+  background-color: rgb(186, 231, 255);
+}
+.table{
+  margin-top: 40px;
+}
+
+.button-crear-producto{
+  border: none;
+  margin-top: 10px;
+  background-color: #0084ff;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-family: 'Montserrat', sans-serif;
+
+}
+
+.title{
+  margin-top: 20px;
+  text-align: center;
+  margin-bottom: 1rem;
+  color: #333;
+  font-size: 2.2rem;
+  font-weight: bold;
+  font-family: 'Montserrat', sans-serif;
+}
+

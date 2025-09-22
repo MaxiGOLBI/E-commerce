@@ -1,0 +1,258 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  
+}
+
+.NavBar{
+  width: 100%;
+  height: 7rem;
+  background-color: #111;
+  padding: 0; /* Elimina el padding extra si hay */
+  margin-top: 0; /* Elimina el margen extra si lo tiene */
+  color: white;
+}
+
+.contenedorNavBar{ 
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 25px;
+}
+
+/* ZONA DERECHA DEL NAVBAR*/
+.derechaNavbar {
+  padding-right: 80px;
+  display: flex;
+  align-items: center;
+  gap: 40px; /* Espacio entre login y el ícono del carrito */
+    
+}
+
+.login {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Espacio entre el texto "Ingresar" y el ícono */
+}
+
+.logo{
+  width: 100px;  /* Cambiá este valor según lo que necesites */
+  height: auto;
+  margin: 0px;
+}
+
+
+.icono{
+  width: 40px;
+  height: auto;
+  margin-left: 10px;
+  transition: opacity 0.3s ease;
+}
+
+.icono:hover{
+  opacity: 0.4;
+}
+
+a {
+  text-decoration: none; /* Elimina el subrayado */
+  color: inherit;         /* Hace que el link tome el mismo color que el texto donde esté */
+  font-family: 'Poppins', sans-serif;
+}
+
+.contenedorNavBarLogin{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+}
+
+.textoIngresar{
+  color:#ffffff;
+  text-decoration: none;
+}
+
+.textoIngresar:hover{
+  color: rgb(0, 162, 255);
+}
+
+/* ZONA IZQUIERDA DEL NAVBAR*/
+.izquierdaNavBar{
+  display: flex;
+  padding-left: 40px;
+  position:relative ;
+  display: inline-block;
+}
+
+.entryBuscador{
+  font-family: 'Poppins', sans-serif;
+  padding: 10px 100px 10px 15px; /* Espacio interno: izquierda para texto, derecha para ícono */
+  width: 18rem !important;
+  border: 2px solid #ccc;
+  border-radius: 25px;
+  background-color: #f9f9f9;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.izquierdaNavBar img{
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  pointer-events: none;
+
+}
+
+
+.etiquetasA{
+    display: block;
+    color: rgb(0, 0, 0);
+    font-weight: 400;
+    font-size: 1.2rem;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: background 0.3s ease, color 0.3s;
+    letter-spacing: 0.5px;
+}
+
+.etiquetasA:hover{
+  color: rgb(0, 162, 255);
+}
+
+.info-usuario{
+  display: flex;
+  flex-direction: column;
+}
+
+.link-nav{
+  color: white;
+  text-decoration: none;
+  font-size: small;
+}
+.link-nav:hover{
+  color: rgb(105, 105, 105);
+}
+
+.link-nav-login{
+  color: white;
+  text-decoration: none;
+  font-size: medium;
+  
+}
+.link-nav-login:hover{
+  color: rgb(105, 105, 105);
+}
+
+/*FUENTE */
+  
+.poppins-thin {
+  font-family: "Poppins", sans-serif;
+  font-weight: 100;
+  font-style: normal;
+}
+
+.poppins-extralight {
+  font-family: "Poppins", sans-serif;
+  font-weight: 200;
+  font-style: normal;
+}
+
+.poppins-light {
+  font-family: "Poppins", sans-serif;
+  font-weight: 300;
+  font-style: normal;
+}
+
+.poppins-regular {
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.poppins-medium {
+  font-family: "Poppins", sans-serif;
+  font-weight: 500;
+  font-style: normal;
+}
+
+.poppins-semibold {
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  font-style: normal;
+}
+
+.poppins-bold {
+  font-family: "Poppins", sans-serif;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.poppins-extrabold {
+  font-family: "Poppins", sans-serif;
+  font-weight: 800;
+  font-style: normal;
+}
+
+.poppins-black {
+  font-family: "Poppins", sans-serif;
+  font-weight: 900;
+  font-style: normal;
+}
+
+.poppins-thin-italic {
+  font-family: "Poppins", sans-serif;
+  font-weight: 100;
+  font-style: italic;
+}
+
+.poppins-extralight-italic {
+  font-family: "Poppins", sans-serif;
+  font-weight: 200;
+  font-style: italic;
+}
+
+.poppins-light-italic {
+  font-family: "Poppins", sans-serif;
+  font-weight: 300;
+  font-style: italic;
+}
+
+.poppins-regular-italic {
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+  font-style: italic;
+}
+
+.poppins-medium-italic {
+  font-family: "Poppins", sans-serif;
+  font-weight: 500;
+  font-style: italic;
+}
+
+.poppins-semibold-italic {
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  font-style: italic;
+}
+
+.poppins-bold-italic {
+  font-family: "Poppins", sans-serif;
+  font-weight: 700;
+  font-style: italic;
+}
+
+.poppins-extrabold-italic {
+  font-family: "Poppins", sans-serif;
+  font-weight: 800;
+  font-style: italic;
+}
+
+.poppins-black-italic {
+  font-family: "Poppins", sans-serif;
+  font-weight: 900;
+  font-style: italic;
+}
