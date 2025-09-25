@@ -17,7 +17,7 @@
             $producto->crearProducto($producto);   
         } 
     }   
-    IF(isset($_POST['actualizar_producto'])){
+    if(isset($_POST['actualizar_producto'])){
         
     }
 ?>
@@ -52,8 +52,8 @@
 
     <div class="layout">
         <div class="sidebar">
-           <a href="dashboard.php" class="letraTitulos px-3 py-3">DASHBOARD</a>
-            <a href="g_productos.php" class="letraTitulos px-3 py-3">GESTIÓN DE PRODUCTOS</a>
+           <a href="<?= BASE_URL ?>/pages/panel_control/panel_de_control.php" class="letraTitulos px-3 py-3">DASHBOARD</a>
+            <a href="<?= BASE_URL ?>/pages/panel_control/g_productos.php" class="letraTitulos px-3 py-3">GESTIÓN DE PRODUCTOS</a>
             <a href="pedidos.php" class="letraTitulos px-3 py-3">PEDIDOS</a>
             <a href="ventas.php" class="letraTitulos px-3 py-3">VENTAS</a>
             <a href="" class="letraTitulos px-3 py-3">SOPORTE</a>
@@ -74,7 +74,6 @@
                             <th>Cantidad</th>
                             <th>Precio costo</th>
                             <th>Precio venta</th>
-                            <th>Proveedor</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
@@ -91,7 +90,6 @@
                             <td><?= $producto['cantidad'] ?></td>
                             <td><?= $producto['precio_costo'] ?></td>
                             <td><?= $producto['precio_venta'] ?></td>
-                            <td><?= $producto['proveedor'] ?></td>
                             <td>
                                 <a href="">
                                     <img src="<?= BASE_URL ?>/assets/img/edit.png" alt="Editar">
@@ -135,7 +133,6 @@
                         <input type="number" name="cantidad" placeholder="Cantidad en stock" required><br><br>
                         <input type="number" name="precio_costo" placeholder="Precio costo" requiered><br><br>
                         <input type="number" name="precio_venta" placeholder="Precio venta" requiered><br><br>
-                        <input type="text" name="proveedor" placeholder="Proveedor" requiered><br><br>
                         <input type="file" name="imagen" placeholder="Imagen producto" class="form-archivos" requiered><br><br>
                         <div class="botones-modal">
                             <button type="submit" name="guardar_datos" class="boton-cargar">Cargar producto</button>
@@ -161,6 +158,6 @@
             </script>
         <?php endif ;?> 
     </div>
-    <script src="../bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="__ROOT__/bootstrap/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

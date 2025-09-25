@@ -10,6 +10,7 @@ require_once __DIR__ . '/../../config.php';
     <link rel="icon" href="<?= BASE_URL ?>/assets/img/logoCeleste.png" type="image/png">
     <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/stylesNavBar.css">
     <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/stylesLogin.css">
+    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/stylesProducts.css">
 
     <!--FUENTE-->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -22,6 +23,7 @@ require_once __DIR__ . '/../../config.php';
 <body>
     <?php
     include ROOT_PATH . '/pages/layouts/nav.php';
+
     ?>
 
 
@@ -123,7 +125,7 @@ require_once __DIR__ . '/../../config.php';
     </div>
 
     
-    <footer class="pieDePag">
+    <footer>
         <h6>Copyright CtrlGear © - Todos los derechos reservados</h6>
         
     </footer>

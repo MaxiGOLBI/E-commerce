@@ -1,6 +1,12 @@
 <?php
     session_start();
     require_once __DIR__ . '/../../config.php';
+    require_once __DIR__ . '/../../includes/bd.php';
+    
+    verificar_admin();
+    if($_SESSION['admin'] == False){
+        header('Location: ' . BASE_URL . '/index.php');
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -37,9 +43,19 @@
             <a href="pedidos.php" class="letraTitulos px-3 py-3">PEDIDOS</a>
             <a href="ventas.php" class="letraTitulos px-3 py-3">VENTAS</a>
             <a href="" class="letraTitulos px-3 py-3">SOPORTE</a>
- 
+        </div>
+        <div class="content">
+        <div class="container-fluid">
+            <h3>Cantidad de productos vendidos</h3>
+            <h3>Pedidos en proceso</h3>
+            <h3>Pedidos entregados</h3>
+            <h3>Productos en stock</h3>
+            <h3>Productos sin stock</h3>
+
         </div>
     </div>
+    </div>
+    
     <script src="../bootstrap/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

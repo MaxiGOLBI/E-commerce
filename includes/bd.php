@@ -19,10 +19,32 @@
         mysqli_stmt_bind_param($stmt, "s", $email);
         mysqli_stmt_execute($stmt);
         $resultado = mysqli_stmt_get_result($stmt);
+        #Si nos trae algun email significa que el usuario ya existe, entoncces guardamos los datos en sesion
         if (mysqli_num_rows($resultado) > 0){
-            echo json_encode(['success' => true, 'message' => 'Usuario ya existe']);
-            $_SESSION['tipo_login'] = "Usuario ya existe";
-            return;
+            mysqli_stmt_close($stmt);
+            //SI HAY FILAS, SIGNIFICA QUE HAY USUARIOS CON ESE EMAIL Y CONTRASEÑA, POR LO TANTO GUARDAMOS LOS DATOS EN SESION Y DECIMOS QUE EL USUARIO ESTA LOGUEADO
+            $sql = "SELECT email, nombre, direccion, dni, cel, rol FROM users WHERE email = ?";
+            $stmt = mysqli_prepare($conexion, $sql);
+            mysqli_stmt_bind_param($stmt, "s", $email);
+            mysqli_stmt_execute($stmt);
+            mysqli_stmt_bind_result($stmt, $email,$nombre, $direccion, $dni, $celular, $rol);
+            if(mysqli_stmt_fetch($stmt)){
+                $_SESSION['email'] = $email ;
+                $_SESSION['nombre'] = $nombre ;
+                $_SESSION['direccion'] = $direccion ;
+                $_SESSION['dni'] = $dni ;
+                $_SESSION['cel'] = $celular ;
+
+                $_SESSION['usuario_logueado'] = true;
+                mysqli_stmt_close($stmt);
+                echo json_encode(['success' => true, 'message' => 'Usuario ya existe']);
+                $_SESSION['tipo_login'] = "Usuario ya existe";
+                return;
+            } else {
+                mysqli_stmt_close($stmt);
+                echo json_encode(['success' => false, 'message' => 'Error al leer datos del usuario']);
+                return;
+            }
         } else {
             $sql = "INSERT into users(email, nombre, tipo_login) VALUES (?, ?, ?)";
             $stmt = mysqli_prepare($conexion, $sql);
@@ -37,9 +59,8 @@
                 echo json_encode(['success' => false, 'message' => 'Error al insertar']); 
             }
         }
-        
-        
     }
+    
     function ingresar_sin_GSI($email1, $password1){
         if(session_status() == PHP_SESSION_NONE){
             session_start();
@@ -52,7 +73,7 @@
             echo $e->getMessage();
             exit;
         }
-        $sql = 'SELECT email, password, nombre FROM users WHERE email = ? AND password = ?';
+        $sql = 'SELECT email nombre, rol, direccion, dni, cel FROM users WHERE email = ? AND password = ?';
         $stmt = mysqli_prepare($conexion, $sql);
         mysqli_stmt_bind_param($stmt, 'ss', $email1, $password1);
         $exito = mysqli_stmt_execute($stmt);
@@ -62,11 +83,16 @@
             $rows = mysqli_stmt_num_rows($stmt);
             if($rows != 0){
                 //SI HAY FILAS, SIGNIFICA QUE HAY USUARIOS CON ESE EMAIL Y CONTRASEÑA, POR LO TANTO GUARDAMOS LOS DATOS EN SESION Y DECIMOS QUE EL USUARIO ESTA LOGUEADO
-                mysqli_stmt_bind_result($stmt, $email, $password,$nombre);
+                mysqli_stmt_bind_result($stmt, $email,$nombre, $direccion, $dni, $celular);
                 if(mysqli_stmt_fetch($stmt)){
-                    if(!isset($_SESSION['email']) && !isset($_SESSION['nombre']) && !isset($_SESSION['contraseña'])){
+                    if(!isset($_SESSION['email']) && !isset($_SESSION['nombre']) && !isset($_SESSION['direccion']) && !isset($_SESSION['dni']) && !isset($_SESSION['cel'])){
                         $_SESSION['email'] = $email ;
                         $_SESSION['nombre'] = $nombre ;
+                        $_SESSION['direccion'] = $direccion ;
+                        $_SESSION['dni'] = $dni ;
+                        $_SESSION['cel'] = $celular ;
+
+                        
                         }
                     $_SESSION['usuario_logueado'] = true;
                     mysqli_stmt_close($stmt);
@@ -136,6 +162,7 @@
                     if($rol == 'admin'){
                         $_SESSION['admin'] = true;
                         mysqli_stmt_close($stmt);
+                        
                     }
                 } else {
                     $mensaje = 'No se encontro al usuario';
@@ -148,5 +175,5 @@
         }  
        
     }
-  
+
 ?>

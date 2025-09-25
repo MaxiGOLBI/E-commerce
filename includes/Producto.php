@@ -6,19 +6,18 @@ class Producto{
     public int $cantidad;
     public int $precio_costo;
     public int $precio_venta;
-    public string $proveedor;
+  
     public string $estado ;
     public string $imagen ;
 
 
-    public function __construct(string $nombre, string $categoria, int $cantidad, int $precio_costo, int $precio_venta, string $proveedor, string $imagen)
+    public function __construct(string $nombre, string $categoria, int $cantidad, int $precio_costo, int $precio_venta, string $imagen)
     {
         $this-> nombre = $nombre;
         $this-> categoria = $categoria;
         $this-> cantidad = $cantidad;
         $this-> precio_costo = $precio_costo;
         $this-> precio_venta = $precio_venta;
-        $this-> proveedor = $proveedor;
         $this-> imagen = $imagen;
     }
 
@@ -40,9 +39,6 @@ class Producto{
     }
     public function getPrecioVenta(){
         return $this->precio_venta;
-    }
-    public function getProveedor(){
-        return $this->proveedor;
     }
     public function getEstado(){
         return $this->estado;    
@@ -68,9 +64,6 @@ class Producto{
     public function setPrecioVenta($precio_venta){
         $this->precio_venta = $precio_venta;
     }
-    public function setProveedor($proveedor){
-        $this->proveedor = $proveedor;
-    }
     public function setEstado($estado){
         $this->estado = $estado;    
     }
@@ -90,7 +83,7 @@ class Producto{
             exit;
         }
         $blob_placeholder = '';
-        $sql = 'INSERT INTO products (nombre, categoria, cantidad, precio_costo, precio_venta, proveedor, imagen) VALUES (?,?,?,?,?,?,?)';
+        $sql = 'INSERT INTO products (nombre, categoria, cantidad, precio_costo, precio_venta, imagen) VALUES (?,?,?,?,?,?,?)';
         $stmt = mysqli_prepare($conexion, $sql);
         mysqli_stmt_bind_param($stmt,
                     "ssiddsb",
@@ -99,7 +92,6 @@ class Producto{
                     $producto->cantidad,
                     $producto->precio_costo,
                     $producto->precio_venta,
-                    $producto->proveedor,
                     $blob_placeholder
                     );
         mysqli_stmt_send_long_data($stmt, 6, $producto->imagen);
@@ -124,7 +116,7 @@ class Producto{
             echo $e->getMessage();
             exit;
         }
-        $sql = 'SELECT id, nombre, categoria, cantidad, precio_costo, precio_venta, proveedor FROM products';
+        $sql = 'SELECT id, nombre, categoria, cantidad, precio_costo, precio_venta FROM products';
         $stmt = mysqli_prepare($conexion, $sql);
         $exito = mysqli_stmt_execute($stmt);
         if($exito){

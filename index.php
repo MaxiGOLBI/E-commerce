@@ -24,14 +24,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ctrl Gear</title>
-    <link rel="icon" href="assets/img/logoCeleste.png" type="image/png">
+    <link rel="icon" href="<?= BASE_URL ?>/assets/img/logoCeleste.png" type="image/png">
     
-    <link rel="stylesheet" href="assets/css/stylesNavBar.css">
-    <link rel="stylesheet" href="assets/css/stylesCategorias.css">
-    <link rel="stylesheet" href="assets/css/stylesPanel.css">
-    <link rel="stylesheet" href="assets/css/stylesModal.css">
+    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/stylesNavBar.css">
+    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/stylesCategorias.css">
+    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/stylesPanel.css">
+    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/stylesModal.css">
     
-    <link rel="stylesheet" href="assets/css/stylesProducts.css"> 
+    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/stylesProducts.css"> 
 
     <script src="assets/js/scripts.js"></script>
 
@@ -161,8 +161,8 @@
     </script>
     
 
-    <footer>
-        
+    <footer class="pieDePag">
+        <h6>Copyright CtrlGear © - Todos los derechos reservados</h6>
     </footer>
 
     <!-- CREAMOS EL MODAL PARA SOLICITARLE LOS DEMAS DATOS AL USUARIO LUEGO DE QUE SE REGISTRA CON EL GSI-->
@@ -175,7 +175,7 @@
                     <input type="text" name="direccion" placeholder="Dirección" requiered><br><br>
                     <input type="number" name="celular" placeholder="Telefono" requiered><br><br>
                     <input type="password" name="contraseña" placeholder="Nueva contraseña" required><br><br>
-                    <button type="submit" name="guardar_datos">Guardar datos</button>
+                    <button type="submit" name="guardar_datos" class="boton-guardar">Guardar datos</button>
                 </form>
             </div>
         </div>

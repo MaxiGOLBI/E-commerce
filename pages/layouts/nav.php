@@ -19,7 +19,7 @@ require_once __DIR__ . '/../../config.php';
                 <?php if (isset($_SESSION['email']) && ($_SESSION['nombre'])): ?>
                     <img class= "icono" src="<?= BASE_URL ?>/assets/img/login.png" alt="">
                     <div class="info-usuario">
-                        <a href="" class="link-nav">Hola, <?= htmlspecialchars($_SESSION['nombre']) ?></a>
+                        <a href="<?=BASE_URL?>/pages/user/perfil.php" class="link-nav">Hola, <?= htmlspecialchars($_SESSION['nombre']) ?></a>
                         <a href="<?=BASE_URL?>/includes/logout.php" class="link-nav">Cerrar sesión</a>
                     </div>
                     
