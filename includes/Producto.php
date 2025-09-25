@@ -131,6 +131,7 @@ class Producto{
         }
     }
 
+
     public static function obtenerProductoPorId($id){
         include_once 'Database.php';
         try{

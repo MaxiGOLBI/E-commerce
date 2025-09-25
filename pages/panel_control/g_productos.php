@@ -9,6 +9,7 @@
         $cantidad = $_POST['cantidad'];
         $precio_costo = $_POST['precio_costo'];
         $precio_venta = $_POST['precio_venta'];
+
         $imagen = $_POST['imagen'];
         include_once('../includes/Producto.php');
         if ($_POST['nombre'] != "" && $_POST['categoria'] != "" && $_POST['cantidad'] != "" && $_POST['precio_costo'] != "" && $_POST['precio_venta'] != "" && $_POST['imagen'] != ""){
@@ -19,8 +20,8 @@
     if(isset($_GET['editar_producto'])){
         $id = $_GET['id'];
         #ME QUEDE ACA
-
     }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -92,6 +93,7 @@
                             <td><?= $producto['precio_costo'] ?></td>
                             <td><?= $producto['precio_venta'] ?></td>
                             <td>
+
                                 <form action="" method="GET">
                                     <input type="hidden" name="id" value="<?= $producto['id'] ?>">
                                     <button type="submit" style="border:none; background:none; cursor:pointer;" name="editar_producto">
