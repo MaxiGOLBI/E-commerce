@@ -1,0 +1,43 @@
+body{
+    background-color: rgb(222, 222, 222) !important;
+}
+
+.containerLogin{
+    margin-top: 2.5rem;
+
+
+}
+
+.redondeado{
+    border-radius: 1.5rem;
+}
+.parteDerechaLogin{
+    background-color: rgb(255, 255, 255);
+    
+    
+}
+
+
+.parteIzquierdaLogin{
+    background-color: rgb(130, 199, 218);
+    
+}
+
+.logoCeleste{
+   width: 15rem;
+}
+
+.g_id_signin {
+    width: 240px !important;   /* Ajustá esto al tamaño que prefieras */
+    height: 40px !important;
+    margin-top: 10px;
+    border-radius: 5px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+
+
