@@ -30,7 +30,9 @@ require_once __DIR__ . '/../../config.php';
                 
                 
             </div>
-            <img class="icono" src="<?= BASE_URL ?>/assets/img/carrito.png" alt="">
+            <a href="<?= BASE_URL ?>/pages/user/carrito.php" class="carrito-link">
+                <img class="icono" src="<?= BASE_URL ?>/assets/img/carrito.png" alt="Carrito de compras">
+            </a>
         </div>
     </div>    
 </header>

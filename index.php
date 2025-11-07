@@ -161,9 +161,7 @@
     </script>
     
 
-    <footer class="pieDePag">
-        <h6>Copyright CtrlGear © - Todos los derechos reservados</h6>
-    </footer>
+    
 
     <!-- CREAMOS EL MODAL PARA SOLICITARLE LOS DEMAS DATOS AL USUARIO LUEGO DE QUE SE REGISTRA CON EL GSI-->
     <?php if(isset($_SESSION['tipo_login']) && $_SESSION['tipo_login'] == "Usuario creado con gsi por primera vez"): ?>

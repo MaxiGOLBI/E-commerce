@@ -53,6 +53,25 @@ html, body {
   opacity: 0.4;
 }
 
+/* Estilos específicos para el enlace del carrito */
+.carrito-link {
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.carrito-link:hover {
+  transform: scale(1.1);
+}
+
+.carrito-link:hover .icono {
+  opacity: 0.8;
+  filter: brightness(1.2);
+}
+
+.carrito-link .icono {
+  transition: all 0.3s ease;
+}
+
 a {
   text-decoration: none; /* Elimina el subrayado */
   color: inherit;         /* Hace que el link tome el mismo color que el texto donde esté */
