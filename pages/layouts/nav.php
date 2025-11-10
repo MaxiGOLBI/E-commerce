@@ -6,8 +6,8 @@ require_once __DIR__ . '/../../config.php';
     <div class="contenedorNavBar">
 
         <div class="izquierdaNavBar">
-            <input class='entryBuscador' type="text" placeholder="Buscar productos">
-            <img class src="<?= BASE_URL ?>/assets/img/lupa.png" alt="">
+            <input class='entryBuscador' type="text" id="searchInput" placeholder="Buscar productos">
+            <img class src="<?= BASE_URL ?>/assets/img/lupa.png" alt="" id="searchBtn" style="cursor: pointer;">
         </div>
 
         <a href="<?=BASE_URL?>/index.php">
@@ -27,11 +27,20 @@ require_once __DIR__ . '/../../config.php';
                     <a href="<?=BASE_URL?>/pages/auth/login.php" class="link-nav-login">Ingresar</a>
                     <img class= "icono" src="<?= BASE_URL ?>/assets/img/login.png" alt="">
                 <?php endif; ?>
-                
-                
             </div>
             <a href="<?= BASE_URL ?>/pages/user/carrito.php" class="carrito-link">
                 <img class="icono" src="<?= BASE_URL ?>/assets/img/carrito.png" alt="Carrito de compras">
+                <?php 
+                $cart_count = 0;
+                if (isset($_SESSION['carrito']) && !empty($_SESSION['carrito'])) {
+                    foreach ($_SESSION['carrito'] as $item) {
+                        $cart_count += $item['cantidad'];
+                    }
+                }
+                if ($cart_count > 0): 
+                ?>
+                <span class="cart-badge"><?= $cart_count ?></span>
+                <?php endif; ?>
             </a>
         </div>
     </div>    

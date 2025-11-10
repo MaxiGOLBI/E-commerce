@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/stylesPanel.css">
     <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/stylesModal.css">
     <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/stylesCarrito.css">
+    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/stylesNotifications.css">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -41,10 +42,8 @@
 
         <div class="cart-content">
             <?php
-            // Carrito vacío por defecto - aquí conectarías con tu base de datos
-            $carrito_items = [
-                // Array vacío para mostrar carrito sin productos
-            ];
+            // Obtener items del carrito desde la sesión
+            $carrito_items = isset($_SESSION['carrito']) ? $_SESSION['carrito'] : [];
 
             $total_items = 0;
             $subtotal = 0;
@@ -70,16 +69,12 @@
                     <?php foreach ($carrito_items as $item): ?>
                     <div class="cart-item" data-product-id="<?= $item['id'] ?>">
                         <div class="item-image">
-                            <img src="<?= $item['imagen'] ?>" alt="<?= $item['nombre'] ?>" 
-                                 onerror="this.src='<?= BASE_URL ?>/assets/img/default-product.png'">
+                            <img src="<?= BASE_URL ?>/assets/img/<?= $item['imagen'] ?>" alt="<?= $item['nombre'] ?>" 
+                                 onerror="this.src='<?= BASE_URL ?>/assets/img/default-product.svg'">
                         </div>
                         
                         <div class="item-details">
                             <h4 class="item-name"><?= $item['nombre'] ?></h4>
-                            <p class="item-category">
-                                <i class="fas fa-tag"></i>
-                                <?= $item['categoria'] ?>
-                            </p>
                             <p class="item-price">$<?= number_format($item['precio'], 0, ',', '.') ?></p>
                         </div>
                         
@@ -192,13 +187,13 @@
                     
                     <div class="suggested-categories">
                         <h4>Categorías populares:</h4>
-                        <a href="<?= BASE_URL ?>/products.php?categoria=teclados" class="category-link">
+                        <a href="<?= BASE_URL ?>/index.php#teclados" class="category-link" onclick="window.location.href='<?= BASE_URL ?>/index.php'; return false;">
                             <i class="fas fa-keyboard"></i> Teclados
                         </a>
-                        <a href="<?= BASE_URL ?>/products.php?categoria=mouses" class="category-link">
+                        <a href="<?= BASE_URL ?>/index.php#mouses" class="category-link" onclick="window.location.href='<?= BASE_URL ?>/index.php'; return false;">
                             <i class="fas fa-mouse"></i> Mouses
                         </a>
-                        <a href="<?= BASE_URL ?>/products.php?categoria=auriculares" class="category-link">
+                        <a href="<?= BASE_URL ?>/index.php#auriculares" class="category-link" onclick="window.location.href='<?= BASE_URL ?>/index.php'; return false;">
                             <i class="fas fa-headphones"></i> Auriculares
                         </a>
                     </div>
@@ -212,123 +207,93 @@
     <!-- Toast de notificaciones -->
     <div id="cart-toast" class="toast-notification"></div>
 
+    <script src="<?= BASE_URL ?>/assets/js/notifications.js"></script>
+
     <!-- JavaScript para funcionalidades del carrito -->
     <script>
         function updateQuantity(productId, action, value = null) {
-            const input = document.getElementById(`qty-${productId}`);
-            const totalElement = document.getElementById(`total-${productId}`);
-            
-            let currentQty = parseInt(input.value);
-            let newQty = currentQty;
-            
-            switch(action) {
-                case 'increase':
-                    newQty = Math.min(currentQty + 1, 99);
-                    break;
-                case 'decrease':
-                    newQty = Math.max(currentQty - 1, 1);
-                    break;
-                case 'set':
-                    newQty = Math.max(Math.min(parseInt(value) || 1, 99), 1);
-                    break;
+            const data = new FormData();
+            data.append('product_id', productId);
+            data.append('action', action);
+            if (value) {
+                data.append('quantity', value);
             }
-            
-            input.value = newQty;
-            
-            // Simular actualización del total (aquí harías una llamada AJAX)
-            const productPrice = getProductPrice(productId);
-            const newTotal = productPrice * newQty;
-            totalElement.textContent = `$${newTotal.toLocaleString('es-AR')}`;
-            
-            updateCartTotals();
-            showToast('Cantidad actualizada', 'success');
+
+            fetch('<?= BASE_URL ?>/update_cart.php', {
+                method: 'POST',
+                body: data
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Actualizar la página para reflejar cambios
+                    location.reload();
+                } else {
+                    notify.error(data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                notify.error('Error al actualizar el carrito');
+            });
         }
 
         function removeItem(productId) {
-            if (confirm('¿Estás seguro de que quieres eliminar este producto del carrito?')) {
-                const item = document.querySelector(`[data-product-id="${productId}"]`);
-                item.style.opacity = '0';
-                item.style.transform = 'translateX(-100%)';
-                
-                setTimeout(() => {
-                    item.remove();
-                    updateCartTotals();
-                    checkEmptyCart();
-                    showToast('Producto eliminado del carrito', 'info');
-                }, 300);
+            if (!confirm('¿Estás seguro de que deseas eliminar este producto?')) {
+                return;
             }
-        }
 
-        function getProductPrice(productId) {
-            // Simular obtener precio del producto
-            const prices = {1: 12500, 2: 8900, 3: 15600};
-            return prices[productId] || 0;
-        }
+            const data = new FormData();
+            data.append('product_id', productId);
 
-        function updateCartTotals() {
-            let subtotal = 0;
-            let totalItems = 0;
-            
-            document.querySelectorAll('.cart-item').forEach(item => {
-                const productId = item.dataset.productId;
-                const quantity = parseInt(document.getElementById(`qty-${productId}`).value);
-                const price = getProductPrice(productId);
-                
-                subtotal += price * quantity;
-                totalItems += quantity;
+            fetch('<?= BASE_URL ?>/remove_from_cart.php', {
+                method: 'POST',
+                body: data
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    notify.success('Producto eliminado del carrito');
+                    // Recargar la página
+                    setTimeout(() => location.reload(), 500);
+                } else {
+                    notify.error(data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                notify.error('Error al eliminar el producto');
             });
-            
-            document.getElementById('subtotal').textContent = `$${subtotal.toLocaleString('es-AR')}`;
-            document.getElementById('total-final').textContent = `$${subtotal.toLocaleString('es-AR')}`;
-            
-            // Actualizar contador en header
-            const headerItems = document.querySelector('.items-header h3');
-            if (headerItems) {
-                headerItems.innerHTML = `<i class="fas fa-list"></i> Productos en tu carrito (${totalItems} items)`;
-            }
-        }
-
-        function checkEmptyCart() {
-            const cartItems = document.querySelectorAll('.cart-item');
-            if (cartItems.length === 0) {
-                location.reload(); // Recargar para mostrar carrito vacío
-            }
         }
 
         function applyCoupon() {
             const couponCode = document.getElementById('coupon-code').value.trim();
             
             if (!couponCode) {
-                showToast('Por favor ingresa un código de cupón', 'warning');
+                notify.warning('Por favor ingresa un código de cupón');
                 return;
             }
-            
+
             // Simular validación de cupón
             if (couponCode.toUpperCase() === 'DESCUENTO10') {
-                showToast('¡Cupón aplicado! 10% de descuento', 'success');
+                notify.success('¡Cupón aplicado! 10% de descuento');
                 // Aplicar descuento
             } else {
-                showToast('Código de cupón inválido', 'error');
+                notify.error('Código de cupón inválido');
             }
         }
 
         function proceedToCheckout() {
-            showToast('Redirigiendo al checkout...', 'info');
+            // Verificar que haya productos en el carrito
+            <?php if (empty($carrito_items)): ?>
+                notify.warning('Tu carrito está vacío. Agrega productos antes de proceder al pago.');
+                return;
+            <?php endif; ?>
+            
+            notify.info('Redirigiendo a la pasarela de pago...', 'Procesando');
             setTimeout(() => {
-                // Aquí redirigirías al checkout
                 window.location.href = '<?= BASE_URL ?>/pages/user/checkout.php';
             }, 1000);
-        }
-
-        function showToast(message, type = 'info') {
-            const toast = document.getElementById('cart-toast');
-            toast.className = `toast-notification toast-${type}`;
-            toast.textContent = message;
-            toast.style.display = 'block';
-            
-            setTimeout(() => {
-                toast.style.display = 'none';
-            }, 3000);
         }
 
         // Animación de entrada para los items del carrito

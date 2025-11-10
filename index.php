@@ -30,10 +30,10 @@
     <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/stylesCategorias.css">
     <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/stylesPanel.css">
     <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/stylesModal.css">
+    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/stylesNotifications.css">
+    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/stylesCarousel.css">
     
     <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/stylesProducts.css"> 
-
-    <script src="assets/js/scripts.js"></script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -42,6 +42,14 @@
     <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    
+    <style>
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            font-family: 'Poppins', sans-serif;
+        }
+    </style>
 </head>
 
 <body>
@@ -80,24 +88,27 @@
 
       <div class="carousel-inner">
         <div class="carousel-item active">
-          <img src="assets/img/banner1.jpg" class="d-block w-100" alt="Oferta 1" style="height: 400px; object-fit: cover;">
-          <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50 rounded-2 p-2">
-            <h5>Grandes Ofertas</h5>
-            <p>Descuentos en toda la tienda.</p>
+          <img src="assets/img/banner1.jpg" class="d-block w-100" alt="Oferta 1" style="height: 400px; object-fit: cover;" 
+               onerror="this.src='https://images.unsplash.com/photo-1587202372775-e229f172b9d7?w=1200&h=400&fit=crop'">
+          <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-75 rounded-3 p-3">
+            <h5 class="fw-bold">🎮 Grandes Ofertas</h5>
+            <p>Descuentos increíbles en periféricos gaming</p>
           </div>
         </div>
         <div class="carousel-item">
-          <img src="assets/img/banner2.jpg" class="d-block w-100" alt="Oferta 2" style="height: 400px; object-fit: cover;">
-          <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50 rounded-2 p-2">
-            <h5>Nuevas Llegadas</h5>
-            <p>Productos de la temporada.</p>
+          <img src="assets/img/banner2.jpg" class="d-block w-100" alt="Oferta 2" style="height: 400px; object-fit: cover;"
+               onerror="this.src='https://images.unsplash.com/photo-1616588589676-62b3bd4ff6d2?w=1200&h=400&fit=crop'">
+          <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-75 rounded-3 p-3">
+            <h5 class="fw-bold">✨ Nuevas Llegadas</h5>
+            <p>Los mejores productos gaming de la temporada</p>
           </div>
         </div>
         <div class="carousel-item">
-          <img src="assets/img/banner3.jpg" class="d-block w-100" alt="Oferta 3" style="height: 400px; object-fit: cover;">
-          <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50 rounded-2 p-2">
-            <h5>Compra Fácil</h5>
-            <p>Entrega rápida y segura.</p>
+          <img src="assets/img/banner3.jpg" class="d-block w-100" alt="Oferta 3" style="height: 400px; object-fit: cover;"
+               onerror="this.src='https://images.unsplash.com/photo-1593305841991-05c297ba4575?w=1200&h=400&fit=crop'">
+          <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-75 rounded-3 p-3">
+            <h5 class="fw-bold">🚀 Compra Fácil</h5>
+            <p>Entrega rápida y segura a todo el país</p>
           </div>
         </div>
       </div>
@@ -138,29 +149,114 @@
         document.addEventListener('DOMContentLoaded', () => {
             const categoryLinks = document.querySelectorAll('#listaCategorias a');
             const productDisplayArea = document.getElementById('productos'); // ID del contenedor de productos
+            const searchInput = document.getElementById('searchInput');
+            const searchBtn = document.getElementById('searchBtn');
 
-            function loadProducts(categoria) {
-                fetch(products.php?categoria=${categoria})
+            function loadProducts(categoria, search = '') {
+                let url = `products.php?categoria=${categoria}`;
+                if (search) {
+                    url += `&search=${encodeURIComponent(search)}`;
+                }
+                
+                // Mostrar animación de carga
+                productDisplayArea.style.opacity = '0.5';
+                productDisplayArea.innerHTML = '<div style="text-align: center; padding: 60px;"><i class="fas fa-spinner fa-spin" style="font-size: 3em; color: #667eea;"></i><p style="margin-top: 20px; color: #64748b;">Cargando productos...</p></div>';
+                
+                fetch(url)
                     .then(response => response.text())
                     .then(html => {
                         productDisplayArea.innerHTML = html;
+                        productDisplayArea.style.opacity = '1';
+                        attachCartListeners(); // Adjuntar eventos al carrito después de cargar productos
+                        
+                        // Animación de entrada para productos
+                        const products = productDisplayArea.querySelectorAll('.product-item');
+                        products.forEach((product, index) => {
+                            product.style.opacity = '0';
+                            product.style.transform = 'translateY(20px)';
+                            setTimeout(() => {
+                                product.style.transition = 'all 0.5s ease';
+                                product.style.opacity = '1';
+                                product.style.transform = 'translateY(0)';
+                            }, index * 100);
+                        });
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        productDisplayArea.innerHTML = '<div class="no-products-message"><i class="fas fa-exclamation-circle"></i><p>Error al cargar los productos. Por favor intenta nuevamente.</p></div>';
+                        productDisplayArea.style.opacity = '1';
                     });
+            }
+
+            // Funcionalidad de búsqueda
+            function performSearch() {
+                const searchTerm = searchInput.value.trim();
+                loadProducts('', searchTerm);
+            }
+
+            if (searchBtn) {
+                searchBtn.addEventListener('click', performSearch);
+            }
+
+            if (searchInput) {
+                searchInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
             }
 
             categoryLinks.forEach(link => {
                 link.addEventListener('click', (event) => {
                     event.preventDefault();
                     const categoria = event.target.dataset.category;
+                    searchInput.value = ''; // Limpiar búsqueda al seleccionar categoría
                     loadProducts(categoria);
+                    lista.style.display = 'none'; // Cierra el menú después de seleccionar
                 });
             });
 
-            // Carga la categoría "Mouse" por defecto al cargar la página
-            loadProducts('Mouse');
-        });
-    </script>
-    
+            // Función para agregar al carrito
+            function attachCartListeners() {
+                const addToCartButtons = document.querySelectorAll('.add-to-cart-btn');
+                addToCartButtons.forEach(button => {
+                    button.addEventListener('click', function() {
+                        const productId = this.dataset.productId;
+                        const productName = this.dataset.productName;
+                        const productPrice = this.dataset.productPrice;
+                        
+                        addToCart(productId, productName, productPrice);
+                    });
+                });
+            }
 
+            function addToCart(productId, productName, productPrice) {
+                fetch('add_to_cart.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `product_id=${productId}&cantidad=1`
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        notify.success(`${productName} agregado al carrito exitosamente`, '¡Producto agregado!');
+                        // Opcionalmente actualizar el contador del carrito en la navbar
+                    } else {
+                        notify.error('Error al agregar al carrito: ' + data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    notify.error('Error al agregar al carrito. Por favor intenta nuevamente.');
+                });
+            }
+
+            // Carga todos los productos por defecto al cargar la página
+            loadProducts('');
+        });
+    </script>
     
 
     <!-- CREAMOS EL MODAL PARA SOLICITARLE LOS DEMAS DATOS AL USUARIO LUEGO DE QUE SE REGISTRA CON EL GSI-->
@@ -187,7 +283,8 @@
         
     <?php endif ;?>    
 
-
+    <script src="assets/js/notifications.js"></script>
+    <script src="assets/js/scripts.js"></script>
     <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

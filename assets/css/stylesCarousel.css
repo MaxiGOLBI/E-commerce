@@ -1,0 +1,93 @@
+/* Mejoras para el carrusel */
+#mainCarousel {
+    margin: 20px auto;
+    max-width: 1400px;
+    border-radius: 20px !important;
+    overflow: hidden;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15) !important;
+    position: relative;
+    z-index: 1;
+}
+
+#mainCarousel .carousel-item img {
+    filter: brightness(0.9);
+    transition: filter 0.3s ease;
+}
+
+#mainCarousel .carousel-item:hover img {
+    filter: brightness(1);
+}
+
+#mainCarousel .carousel-caption {
+    background: rgba(0, 0, 0, 0.6) !important;
+    backdrop-filter: blur(10px);
+    border-radius: 16px !important;
+    padding: 20px 30px !important;
+    bottom: 30px !important;
+    left: 50px !important;
+    right: auto !important;
+    text-align: left !important;
+}
+
+#mainCarousel .carousel-caption h5 {
+    font-size: 2em;
+    margin-bottom: 10px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+#mainCarousel .carousel-caption p {
+    font-size: 1.1em;
+    margin-bottom: 0;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    background-color: rgba(102, 126, 234, 0.8);
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    background-size: 50%, 50%;
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+}
+
+.carousel-control-prev:hover,
+.carousel-control-next:hover {
+    opacity: 1;
+}
+
+.carousel-indicators button {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.6);
+    border: 2px solid white;
+    transition: all 0.3s ease;
+}
+
+.carousel-indicators button.active {
+    background-color: #667eea;
+    width: 40px;
+    border-radius: 6px;
+}
+
+@media (max-width: 768px) {
+    #mainCarousel .carousel-caption {
+        left: 20px !important;
+        bottom: 20px !important;
+        padding: 15px 20px !important;
+    }
+    
+    #mainCarousel .carousel-caption h5 {
+        font-size: 1.4em;
+    }
+    
+    #mainCarousel .carousel-caption p {
+        font-size: 0.9em;
+    }
+}
